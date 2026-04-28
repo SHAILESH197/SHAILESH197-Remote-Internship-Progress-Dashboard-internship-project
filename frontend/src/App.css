@@ -1,0 +1,286 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #eaf2ff;
+  color: #111827;
+}
+
+/* LOGIN PAGE */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.auth-card {
+  width: 460px;
+  background: #ffffff;
+  padding: 36px;
+  border-radius: 18px;
+  box-shadow: 0 20px 45px rgba(15, 23, 42, 0.15);
+  text-align: center;
+}
+
+.auth-card h1 {
+  color: #111827;
+  font-size: 28px;
+  margin-bottom: 24px;
+  font-weight: 800;
+}
+
+.login-type {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.login-type button {
+  flex: 1;
+  padding: 13px;
+  border: none;
+  border-radius: 10px;
+  background: #e5e7eb;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.login-type .active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: 2px solid #cbd5e1;
+  background: #ffffff;
+  color: #111827;
+  font-size: 16px;
+  font-weight: 500;
+  outline: none;
+}
+
+.auth-card input:focus {
+  border-color: #2563eb;
+  background: #ffffff;
+}
+
+.auth-card input::placeholder {
+  color: #6b7280;
+  opacity: 1;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 15px;
+  margin-top: 8px;
+  border: none;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.auth-card button:hover {
+  background: #1d4ed8;
+}
+
+.message {
+  margin-top: 16px;
+  font-weight: 700;
+  color: #dc2626;
+}
+
+/* DASHBOARD */
+
+.dashboard-layout {
+  display: flex;
+  min-height: 100vh;
+  background: #f1f5f9;
+}
+
+.sidebar {
+  width: 240px;
+  background: #0f172a;
+  color: #ffffff;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  margin: 0 0 12px;
+  font-size: 24px;
+}
+
+.role-badge {
+  background: #2563eb;
+  color: #ffffff;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  text-transform: uppercase;
+  width: fit-content;
+  margin-bottom: 24px;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sidebar nav a {
+  color: #cbd5e1;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.sidebar nav a:hover {
+  color: #ffffff;
+}
+
+.logout-btn {
+  margin-top: auto;
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 13px;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 28px;
+}
+
+.topbar {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.topbar h1 {
+  margin: 0;
+  color: #111827;
+  font-size: 28px;
+}
+
+.topbar p {
+  margin: 6px 0 0;
+  color: #475569;
+  font-weight: 600;
+}
+
+.topbar button {
+  padding: 12px 18px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  border-radius: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.alert {
+  margin-top: 18px;
+  padding: 14px;
+  background: #e0f2fe;
+  color: #075985;
+  border-left: 5px solid #0284c7;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.stat-card {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.stat-card h3 {
+  margin: 0;
+  color: #64748b;
+  font-size: 15px;
+}
+
+.stat-card p {
+  margin: 12px 0 0;
+  font-size: 28px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 22px;
+  margin-top: 24px;
+}
+
+.panel {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+
+.panel h2 {
+  margin-top: 0;
+  color: #111827;
+}
+
+.panel p,
+.panel li {
+  color: #475569;
+  line-height: 1.6;
+}
+.progress-box {
+  margin-top: 20px;
+}
+
+.progress-box p {
+  font-weight: 700;
+  color: #111827;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 12px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar span {
+  display: block;
+  height: 100%;
+  background: #2563eb;
+}
