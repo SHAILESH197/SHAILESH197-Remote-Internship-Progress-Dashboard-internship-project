@@ -8,6 +8,8 @@ function App() {
 
   const [token, setToken] = useState("");
   const [role, setRole] = useState("");
+  const [tasks, setTasks] = useState([]);
+
   const [message, setMessage] = useState("");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -19,9 +21,11 @@ function App() {
       formData.append("username", email);
       formData.append("password", password);
 
+      // 🔐 LOGIN
       const res = await axios.post(`${API_URL}/users/login`, formData);
       setToken(res.data.access_token);
 
+      // 👤 PROFILE
       const profileRes = await axios.get(`${API_URL}/users/profile`, {
         headers: {
           Authorization: `Bearer ${res.data.access_token}`,
@@ -29,6 +33,16 @@ function App() {
       });
 
       setRole(profileRes.data.role);
+
+      // 📋 TASKS
+      const taskRes = await axios.get(`${API_URL}/users/tasks`, {
+        headers: {
+          Authorization: `Bearer ${res.data.access_token}`,
+        },
+      });
+
+      setTasks(taskRes.data.tasks);
+
       setIsLoggedIn(true);
       setMessage("");
     } catch (error) {
@@ -40,6 +54,7 @@ function App() {
     setIsLoggedIn(false);
     setToken("");
     setRole("");
+    setTasks([]);
     setEmail("");
     setPassword("");
     setMessage("");
@@ -59,6 +74,7 @@ function App() {
     }
   };
 
+  // ================= DASHBOARD =================
   if (isLoggedIn) {
     const isAdmin = role === "admin";
 
@@ -71,7 +87,7 @@ function App() {
           <nav>
             <a>Dashboard</a>
             <a>Tasks</a>
-            <a>Weekly Reports</a>
+            <a>Reports</a>
             <a>Feedback</a>
             {isAdmin && <a>Admin Panel</a>}
           </nav>
@@ -89,12 +105,15 @@ function App() {
             </div>
 
             {isAdmin && (
-              <button onClick={testAdminAccess}>Check Admin Access</button>
+              <button onClick={testAdminAccess}>
+                Check Admin Access
+              </button>
             )}
           </div>
 
           {message && <div className="alert">{message}</div>}
 
+          {/* 🔹 STATS */}
           <div className="stats-grid">
             {isAdmin ? (
               <>
@@ -119,47 +138,40 @@ function App() {
               <>
                 <div className="stat-card">
                   <h3>Assigned Tasks</h3>
-                  <p>5</p>
-                </div>
-                <div className="stat-card">
-                  <h3>Completed Tasks</h3>
-                  <p>3</p>
-                </div>
-                <div className="stat-card">
-                  <h3>Reports Submitted</h3>
-                  <p>2</p>
+                  <p>{tasks.length}</p>
                 </div>
                 <div className="stat-card">
                   <h3>Status</h3>
                   <p>Active</p>
                 </div>
+                <div className="stat-card">
+                  <h3>Role</h3>
+                  <p>{role}</p>
+                </div>
               </>
             )}
           </div>
 
+          {/* 🔹 TASKS */}
           <div className="content-grid">
             <section className="panel">
-              <h2>{isAdmin ? "Admin Overview" : "My Internship Progress"}</h2>
-              <p>
-                This dashboard provides a centralized view of internship
-                progress, task status, weekly reports, and mentor feedback.
-              </p>
-
-              <div className="progress-box">
-                <p>Overall Progress</p>
-                <div className="progress-bar">
-                  <span style={{ width: isAdmin ? "80%" : "60%" }}></span>
-                </div>
-              </div>
+              <h2>My Tasks</h2>
+              <ul>
+                {tasks.map((task, index) => (
+                  <li key={index}>
+                    {task.title} - {task.status}
+                  </li>
+                ))}
+              </ul>
             </section>
 
             <section className="panel">
               <h2>Recent Activity</h2>
               <ul>
                 <li>Login authentication completed</li>
-                <li>JWT token verified successfully</li>
-                <li>Role-based access control enabled</li>
-                <li>Dashboard module connected</li>
+                <li>JWT token generated</li>
+                <li>Tasks loaded from backend</li>
+                <li>Role-based dashboard enabled</li>
               </ul>
             </section>
           </div>
@@ -168,6 +180,7 @@ function App() {
     );
   }
 
+  // ================= LOGIN PAGE =================
   return (
     <div className="auth-page">
       <div className="auth-card">

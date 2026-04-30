@@ -28,7 +28,7 @@ def register_user(user: UserCreate, db: Session = Depends(get_db)):
         name=user.name,
         email=user.email,
         password=hash_password(user.password),
-        role="student"   # new user always student
+        role="student"
     )
 
     db.add(new_user)
@@ -50,16 +50,10 @@ def login_user(
     db_user = db.query(User).filter(User.email == form_data.username).first()
 
     if not db_user:
-        raise HTTPException(
-            status_code=404,
-            detail="User not found"
-        )
+        raise HTTPException(status_code=404, detail="User not found")
 
     if not verify_password(form_data.password, db_user.password):
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid password"
-        )
+        raise HTTPException(status_code=401, detail="Invalid password")
 
     access_token = create_access_token(
         {
@@ -79,10 +73,7 @@ def get_profile(token: str = Depends(oauth2_scheme)):
     payload = verify_access_token(token)
 
     if not payload:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid or expired token"
-        )
+        raise HTTPException(status_code=401, detail="Invalid or expired token")
 
     return {
         "message": "Profile accessed successfully",
@@ -96,17 +87,41 @@ def admin_dashboard(token: str = Depends(oauth2_scheme)):
     payload = verify_access_token(token)
 
     if not payload:
-        raise HTTPException(
-            status_code=401,
-            detail="Invalid token"
-        )
+        raise HTTPException(status_code=401, detail="Invalid token")
 
     if payload.get("role") != "admin":
-        raise HTTPException(
-            status_code=403,
-            detail="Access denied. Admin only"
-        )
+        raise HTTPException(status_code=403, detail="Access denied. Admin only")
 
     return {
         "message": "Welcome Admin 🚀"
+    }
+
+
+@router.get("/tasks")
+def get_tasks(token: str = Depends(oauth2_scheme)):
+    payload = verify_access_token(token)
+
+    if not payload:
+        raise HTTPException(status_code=401, detail="Invalid token")
+
+    role = payload.get("role")
+
+    if role == "admin":
+        tasks = [
+            {"title": "Review student weekly reports", "status": "Pending"},
+            {"title": "Assign dashboard module task", "status": "In Progress"},
+            {"title": "Verify authentication module", "status": "Completed"},
+            {"title": "Provide mentor feedback", "status": "Pending"}
+        ]
+    else:
+        tasks = [
+            {"title": "Complete login module", "status": "Completed"},
+            {"title": "Submit weekly progress report", "status": "In Progress"},
+            {"title": "Work on dashboard UI", "status": "Pending"}
+        ]
+
+    return {
+        "user_email": payload.get("sub"),
+        "role": role,
+        "tasks": tasks
     }
